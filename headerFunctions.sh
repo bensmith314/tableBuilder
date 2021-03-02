@@ -33,3 +33,94 @@ function bar() {
     echo
   fi
 }
+
+# This funciton does....
+# Input $1 is the text to modify the color of
+# Input $2 is the foreground color
+#  Valid colors are:
+# Input $3 is the background color
+#  Valid colors are:
+# Recommended usage patterns:
+# Setup
+# printf
+# echo -e
+function colorText() {
+
+  local debug=false # Set to true in order to get color related errors
+
+  # Foreground validation --> Checks if chosen color is valid
+  # If an invalid choice is given, an error is printed to the shell
+  if [[ $2 == "black" ]]; then
+    local foreground="0;30"
+  elif [[ $2 == "darkGrey" ]]; then
+    local foreground="1;30"
+  elif [[ $2 == "red" ]]; then
+    local foreground="0;31"
+  elif [[ $2 == "lightRed" ]]; then
+    local foreground="1;31"
+  elif [[ $2 == "green" ]]; then
+    local foreground="0;32"
+  elif [[ "$2" == "lightGreen" ]]; then
+    local foreground="1;32"
+  elif [[ $2 == "brown" ]]; then
+    local foreground="0;33"
+  elif [[ $2 == "yellow" ]]; then
+    local foreground="1;33"
+  elif [[ $2 == "blue" ]]; then
+    local foreground="0;34"
+  elif [[ $2 == "lightBlue" ]]; then
+    local foreground="1;34"
+  elif [[ $2 == "magenta" ]]; then
+    local foreground="0;35"
+  elif [[ $2 == "lightMagenta" ]]; then
+    local foreground="1;35"
+  elif [[ $2 == "cyan" ]]; then
+    local foreground="0;36"
+  elif [[ $2 == "lightCyan" ]]; then
+    local foreground="1;36"
+  elif [[ $2 == "lightGrey" ]]; then
+    local foreground="0;37"
+  elif [[ $2 == "white" ]]; then
+    local foreground="1;37"
+  elif [[ $debug = true ]]; then
+    local error=$(colorText "[Error]" "white" "red")
+    printf "$error Invalid foreground color selected [$2]"
+  else
+    local foreground="0;37"
+  fi
+
+  # Background color validation --> Checks if chosen color is valid
+  # If an invalid choice is given, an error is printed to the shell
+  if [[ $3 == "black" ]]; then
+    local background=";40"
+  elif [[ $3 == "red" ]]; then
+    local background=";41"
+  elif [[ $3 == "green" ]]; then
+    local background=";42"
+  elif [[ $3 == "yellow"] ]]; then
+    local background=";43"
+  elif [[ $3 == "blue" ]]; then
+    local background=";44"
+  elif [[ $3 == "magenta" ]]; then
+    local background=";45"
+  elif [[ $3 == "cyan" ]]; then
+    local background=";46"
+  elif [[ $3 == "lightGrey" ]]; then
+    local background=";47"
+  elif [[ $3 == "" ]]; then
+    local background=""
+  elif [[ $debug = true ]]; then
+    local error=$(colorText "[Error]" "white" "red")
+    printf "$error Invalid background color selected [$3]"
+  else
+    local background=""
+  fi
+
+  local killColors="\033[0m"
+
+  local text="\033[${foreground}${background}m${1}${killColors}"
+  echo -en $text
+}
+
+result=$(colorText "what are you doing" "green")
+printf "$result\n"
