@@ -66,12 +66,12 @@ function colorText() {
   elif [[ $2 == "white" ]]; then
     local foreground="1;37"
   elif [[ $debug = true ]]; then
-    local error=$(colorText "[Error]" "white" "red")
-    printf "$error Invalid foreground color selected [$2]"
+    local error=$(colorText "[Error]" "lightRed")
+    printf "$error Invalid foreground color selected ["
+    printf "$(colorText "$2" "red")]"
   else
     local foreground="0;37"
   fi
-
   # Background color validation --> Checks if chosen color is valid
   # If an invalid choice is given, an error is printed to the shell
   if [[ $3 == "black" ]]; then
@@ -93,8 +93,9 @@ function colorText() {
   elif [[ $3 == "" ]]; then
     local background=""
   elif [[ $debug = true ]]; then
-    local error=$(colorText "[Error]" "white" "red")
-    printf "$error Invalid background color selected [$3]"
+    local error=$(colorText "[ERROR]" "lightRed")
+    printf "$error Invalid background color selected ["
+    printf "$(colorText "$3" "red")]\n"
   else
     local background=""
   fi
