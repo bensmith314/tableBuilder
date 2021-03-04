@@ -34,19 +34,36 @@ function bar() {
   fi
 }
 
-# This funciton does....
+# This function takes in a text string and uses ANSI escape codes to change the
+#  the color of the text. To do this the function takes in 2 or 3 inputs.
+#
 # Input $1 is the text to modify the color of
-# Input $2 is the foreground color
-#  Valid colors are:
-# Input $3 is the background color
-#  Valid colors are:
-# Recommended usage patterns:
-# Setup
-# printf
-# echo -e
+# Input $2 is the foreground color and all of the following are valid choices:
+#  black          green            blue               cyan
+#  darkGrey       lightGreen       lightBlue          lightCyan
+#  red            brown            magenta            lightGrey
+#  lightRed       yellow           lightMagenta       white
+# Input $3 is the background color and the following are valid choices:
+#  black          red              green              yellow
+#  blue           magenta          cyan               lightGrey
+#
+# This function echos back the modified text following processing, to directly
+#  print the text following processing, it is recommended to do one of the
+#  following depending on need:
+#   printf "$(colorText $1 $2 $3)\n"
+#   echo $(colorText $1 $2 $3)
 function colorText() {
 
-  local debug=false # Set to true in order to get color related errors
+  # Debugging Flag
+  # Set to true in order to get color related errors
+  # This by default is set to false and when the funciton detects an invalid
+  #  input, the text is set to defualt colors to minimize impact. The foreground
+  #  color is set to light grey and the background color is set to be nothing.
+  #  It should be noted that the foreground and background colors are validated
+  #  individually.
+  # When set to true, if an invalid color is determined, an error message is
+  #  printed to the console giving what the wrong input was.
+  local debug=false
 
   # Foreground validation --> Checks if chosen color is valid
   # If an invalid choice is given, an error is printed to the shell
@@ -121,6 +138,3 @@ function colorText() {
   local text="\033[${foreground}${background}m${1}${killColors}"
   echo -en $text
 }
-
-result=$(colorText "what are you doing" "green")
-printf "$result\n"
